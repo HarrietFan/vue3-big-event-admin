@@ -1,9 +1,13 @@
 <script setup>
+  
 </script>
 
 <template>
-  <h1>App.vue</h1>
-  <div> </div>
+  <div>
+    <h1>App.vue</h1>
+    <div> </div>
+    <router-view></router-view> 
+  </div>
 </template>
 
 <style scoped></style>
