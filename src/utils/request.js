@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useUserStore } from "@/stores";
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import router from '@/router'
 
 const baseURL = 'http://big-event-vue-api-t.itheima.net'
@@ -34,7 +34,7 @@ instance.interceptors.response.use(
       return response
     }
     ElMessage.error(response.data.message || "服务异常")
-    return Promise.reject(response.data);;
+    return Promise.reject(response.data);
   }, function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     if(error.response?.status === 401){
@@ -45,3 +45,5 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export default instance

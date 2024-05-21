@@ -5,6 +5,7 @@ import { ref } from 'vue'
 export const useUserStore = defineStore(
   'big-user',
   () => {
+    
     const token = ref('') // 定义 token
     const setToken = (t) => (token.value = t) // 设置 token
 
