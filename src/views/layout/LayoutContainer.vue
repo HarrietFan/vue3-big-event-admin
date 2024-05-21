@@ -6,7 +6,7 @@
 <template>
   <div class="">
     一级
-    布局架子aaaa
+    布局架子aaaaAAA
     <router-view></router-view>
   </div>
 </template>
