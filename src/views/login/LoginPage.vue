@@ -50,12 +50,10 @@
 
   // form暴露的提前验证方法: validate()
   const form = ref(null)
-  const userStore = useUserStore()
   // 注册
   const register = async ()=>{
     await form.value.validate()
     await userRegisterService(ruleModel.value).then(()=>{
-      userStore.setToken(userRegisterService(ruleModel.value).data.token)
       ElMessage.success("注册成功")
       isRegister.value = true
     }).catch((err)=>{
@@ -63,9 +61,11 @@
     })
   }
   // 登录
+  const userStore = useUserStore()
   const login = async ()=>{
     await form.value.validate()
-    await userLoginService(ruleModel.value).then(()=>{
+    await userLoginService(ruleModel.value).then((res)=>{
+      userStore.setToken(res.data.token)
       ElMessage.success("登录成功")
       router.push('/')
     }).catch((err)=>{
