@@ -41,7 +41,8 @@ instance.interceptors.response.use(
       router.push('/login')
     }
     // 对响应错误做点什么
-    ElMessage.error(error.response.data.message || "服务异常")
+    // ElMessage.error(error.response.data.message || "服务异常")
+    ElMessage.error(error.response.message || "服务异常")
     return Promise.reject(error);
   }
 );

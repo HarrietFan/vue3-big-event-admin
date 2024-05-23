@@ -10,10 +10,10 @@ const app = createApp(App)
 
 app.use(pinia)
 
-router.addRoute({
-  path:'/',
-  redirect: "/404",
-})
+// router.addRoute({
+//   path:'/',
+//   redirect: "/404",
+// })
 
 app.use(router)
 
