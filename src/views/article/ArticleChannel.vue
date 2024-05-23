@@ -1,12 +1,16 @@
 <script setup>
 
+
 </script>
 
 
 <template>
-  <div class="">
-    频道管理
-  </div>
+  <PageContainer title="文章分类">
+    <template #extra>
+      <el-button type="primary">添加分类</el-button>
+    </template>
+    文章分类11
+  </PageContainer>
 </template>
 
 

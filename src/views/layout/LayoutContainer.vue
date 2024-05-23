@@ -131,7 +131,7 @@ const handleCommand = async (command)=>{
 /* main */
 .el-container .el-main {
   box-sizing: border-box;
-  padding: 40px;    
+  padding: 40px ;    
 }
 .el-main div[data-v-401d3fdc] {
   background-color: #fff;

@@ -4,9 +4,12 @@
 
 
 <template>
-  <div class="">
+  <PageContainer title="文章管理">
+    <template #extra>
+      <el-button type="primary">添加分类</el-button>
+    </template>
     文章管理
-  </div>
+  </PageContainer>
 </template>
 
 

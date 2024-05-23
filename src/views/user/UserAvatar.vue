@@ -4,9 +4,12 @@
 
 
 <template>
-  <div class="">
-    更换头像
-  </div>
+  <PageContainer title="更换头像">
+    <template #extra>
+      <el-button type="primary">添加分类</el-button>
+    </template>
+    文章管理
+  </PageContainer>
 </template>
 
 
