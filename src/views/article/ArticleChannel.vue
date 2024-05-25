@@ -1,7 +1,7 @@
 <script setup>
 import { Edit,Delete } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import { artGetChannelService } from '@/api/article'
+import { artDelChannelService, artGetChannelService } from '@/api/article'
 import ChannelEdit from './components/ChannelEdit.vue'
 
 const loading = ref(false)
@@ -24,8 +24,20 @@ const onAddChannel = ()=>{
 const onEditChannel = (row)=>{
   dialog.value.open(row)
 }
-const onDelChannel=(row)=>{
-  console.log(row)
+const onDelChannel = async (row)=>{
+  console.log(row.id)
+  await ElMessageBox.confirm('你确认要删除吗？','温馨提示',{
+    type:'warning',
+    confirmButtonText:'确认',
+    cancelButtonText:'取消'
+  })
+  await artDelChannelService(row.id)
+  ElMessage.success('删除成功')
+  getChannelList()
+}
+
+const onSuccess = ()=>{
+  getChannelList()
 }
 
 </script>
@@ -52,7 +64,7 @@ const onDelChannel=(row)=>{
         <el-empty description="没有数据" />
       </template>
     </el-table>
-    <ChannelEdit ref="dialog"></ChannelEdit>
+    <ChannelEdit ref="dialog" @success="onSuccess"></ChannelEdit>
   </PageContainer>
 </template>
 
