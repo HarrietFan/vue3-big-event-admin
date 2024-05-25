@@ -1,12 +1,26 @@
 <script setup>
+import { artGetChannelService } from '@/api/article.js'
+import { ref } from 'vue'
+
+const channelList = ref([])
+const getChannelList = async ()=>{
+  const res = await artGetChannelService()
+  channelList.value = res.data.data
+}
+getChannelList()
 
 </script>
 
 
 <template>
   <el-select style="width: 200px">
-    <el-option label="新闻" value="110"></el-option>
-    <el-option label="历史" value="111"></el-option>
+    <el-option 
+    v-for="channel in channelList"
+    :key="channel.id"
+    :label="channel.cate_name" 
+    :value="channel.id"
+    >
+    </el-option>
   </el-select>
 </template>
 

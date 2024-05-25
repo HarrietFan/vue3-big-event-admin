@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Edit, Delete} from '@element-plus/icons-vue'
-import ChannelSelect from './components/ChannelSelect.vue';
+import ChannelSelect from './components/ChannelSelect.vue'
 
 const articleList = ref([
     {
@@ -28,6 +28,14 @@ const onEditArticle = (row)=>{
 const onDelArticle = (row)=>{
   console.log(row)
 }
+
+// 文章列表
+const params = ref({
+  pagenum:1,
+  pagesize:'4',
+  cate_id:'',
+  state:''
+})
 </script>
 
 <template>
@@ -38,7 +46,7 @@ const onDelArticle = (row)=>{
     <!-- 表单 -->
     <el-form inline>
       <el-form-item label="文章分类">
-        <ChannelSelect></ChannelSelect>
+        <ChannelSelect v-model="params.cate_id"></ChannelSelect>
       </el-form-item>
       <el-form-item label="发布状态">
         <el-select style="width: 200px">
