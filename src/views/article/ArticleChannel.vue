@@ -53,10 +53,10 @@ const onSuccess = ()=>{
       <el-table-column prop="cate_name" label="分类名称"/>
       <el-table-column prop="cate_alias" label="分类别名"  />
       <el-table-column label="操作"  width="120px">
-        <template #default="scope">
-          <el-button :icon="Edit" circle plain type="primary" @click="onEditChannel(scope.row)">
+        <template #default="{ row }">
+          <el-button :icon="Edit" circle plain type="primary" @click="onEditChannel(row)">
           </el-button>
-          <el-button :icon="Delete" circle plain type="danger" @click="onDelChannel(scope.row)">
+          <el-button :icon="Delete" circle plain type="danger" @click="onDelChannel(row)">
           </el-button>
         </template>
       </el-table-column>

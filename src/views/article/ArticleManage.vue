@@ -2,23 +2,11 @@
 import { ref } from 'vue'
 import { Edit, Delete} from '@element-plus/icons-vue'
 import ChannelSelect from './components/ChannelSelect.vue'
+import { formatDate } from '@/utils/format.js'
+import { artGetArticleService } from '@/api/article.js'
 
-const articleList = ref([
-    {
-      "id": 5961,
-      "title": "新的文章啊",
-      "pub_date": "2022-07-10 14:53:52.604",
-      "state": "已发布",
-      "cate_name": "体育"
-    },
-    {
-      "id": 5962,
-      "title": "新的文章啊",
-      "pub_date": "2022-07-10 14:54:30.904",
-      "state": '草稿',
-      "cate_name": "体育"
-    }
-  ])
+const articleList = ref([])
+const total = ref(0)
 
 // 编辑
 const onEditArticle = (row)=>{
@@ -36,6 +24,16 @@ const params = ref({
   cate_id:'',
   state:''
 })
+
+// 获取文章数据
+const getArticle = async ()=>{
+  const res = await artGetArticleService(params.value)
+  articleList.value = res.data.data
+  total.value = res.data.total
+}
+getArticle()
+
+
 </script>
 
 <template>
@@ -49,7 +47,7 @@ const params = ref({
         <ChannelSelect v-model="params.cate_id"></ChannelSelect>
       </el-form-item>
       <el-form-item label="发布状态">
-        <el-select style="width: 200px">
+        <el-select v-model="params.state" style="width: 200px">
           <el-option label="已发布" value="001"></el-option>
           <el-option label="草稿" value="002"></el-option>
         </el-select>
@@ -63,18 +61,22 @@ const params = ref({
     <!-- 表格 -->
     <el-table :data="articleList">
       <el-table-column label="文章标题" prop="title">
-        <template #default="scope">
-          <el-link type="primary" :underline="false">{{ scope.row.title}}</el-link>
+        <template #default="{ row }">
+          <el-link type="primary" :underline="false">{{ row.title}}</el-link>
         </template>
       </el-table-column>
       <el-table-column label="分类" prop="cate_name"></el-table-column>
-      <el-table-column label="发表时间" prop="pub_date"></el-table-column>
+      <el-table-column label="发表时间" prop="pub_date">
+        <template #default="{ row }">
+          {{ formatDate(row) }}
+        </template>
+      </el-table-column>
       <el-table-column label="状态" prop="state"></el-table-column>
       <el-table-column label="操作"  width="120px">
-        <template #default="scope">
-          <el-button :icon="Edit" circle plain type="primary" @click="onEditArticle(scope.row)">
+        <template #default="{ row }">
+          <el-button :icon="Edit" circle plain type="primary" @click="onEditArticle(row)">
           </el-button>
-          <el-button :icon="Delete" circle plain type="danger" @click="onDelArticle(scope.row)">
+          <el-button :icon="Delete" circle plain type="danger" @click="onDelArticle(row)">
           </el-button>
         </template>
       </el-table-column>
