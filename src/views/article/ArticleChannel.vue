@@ -5,7 +5,7 @@ import { artDelChannelService, artGetChannelService } from '@/api/article'
 import ChannelEdit from './components/ChannelEdit.vue'
 
 const loading = ref(false)
-const dialog = ref(null)
+const dialog = ref()
 
 // 加载channel数据
 const channelList = ref([])
@@ -64,7 +64,7 @@ const onSuccess = ()=>{
         <el-empty description="没有数据" />
       </template>
     </el-table>
-    <ChannelEdit ref="dialog" @success="onSuccess"></ChannelEdit>
+    <ChannelEdit ref="dialog" @success="onSuccess" :width="width"></ChannelEdit>
   </PageContainer>
 </template>
 

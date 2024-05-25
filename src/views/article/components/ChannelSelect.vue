@@ -15,6 +15,9 @@ defineProps({
   modelValue:{
     type:[String,Number],
     required:true
+  },
+  width:{
+    type:String
   }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -27,6 +30,7 @@ const emit = defineEmits(['update:modelValue'])
   style="width: 200px"
   :modelValue="modelValue"
   @update:modelValue="emit('update:modelValue',$event)"
+  :style="{ width }"
   >
     <el-option 
     v-for="channel in channelList"
