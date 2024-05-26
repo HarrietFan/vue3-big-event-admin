@@ -13,6 +13,13 @@ const defaultForm = {
 }
 
 const formModel = ref({...defaultForm})
+
+// 图片相关
+const imgUrl = ref('')
+const onSelectFile = (uploadFile)=>{
+  imgUrl.value = URL.createObjectURL(uploadFile.raw)
+  formModel.value.cover_img = uploadFile.raw
+}
  
 const open = (row)=>{
   visibleDraw.value = true
@@ -42,12 +49,17 @@ defineExpose({
       <ChannelSelect v-model="formModel.cate_id" width="100%"></ChannelSelect>
     </el-form-item>
     <el-form-item label="文章封面" props="cover_img">
-    </el-form-item>
-    <el-form-item label="文章内容" props="content">
-      <el-upload>
-        <img v-if="true"  />
+      <el-upload 
+      class="avatar-uploader" 
+      :show-file-list="false" 
+      :on-change="onSelectFile"
+      :auto-upload="false"
+      >
+        <img class="avatar" v-if="imgUrl" :src="imgUrl"/>
         <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
       </el-upload>
+    </el-form-item>
+    <el-form-item label="文章内容" props="content">
     </el-form-item>
     <el-form-item>
       <el-button type="primary">发布</el-button>
@@ -56,3 +68,33 @@ defineExpose({
   </el-form>
   </el-drawer>
 </template>
+
+<style lang="scss" scoped>
+.avatar-uploader {
+  :deep(){
+    .avatar {
+      display:block;
+      width:178px;
+      height:178px;
+    }
+    .el-upload {
+      border: 1px dashed var(--el-border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      position:relative;
+      overflow: hidden;
+      transition: var(--el-transition-duration-fast);
+    }
+    .el-upload:hover {
+      border-color: var(--el-color-primary);
+    }
+    .el-icon.avatar-uploader-icon {
+      width: 178px;
+      height: 178px;
+      text-align:center;
+      font-size: 28px;
+      color: #8c939d;
+    }
+  }
+}
+</style>
