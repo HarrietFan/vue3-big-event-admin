@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <PageContainer title="个人详情">
@@ -11,6 +9,4 @@
   </PageContainer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

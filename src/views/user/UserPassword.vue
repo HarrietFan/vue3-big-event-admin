@@ -1,7 +1,4 @@
-<script setup>
-
-</script>
-
+<script setup></script>
 
 <template>
   <PageContainer title="重置密码">
@@ -12,6 +9,4 @@
   </PageContainer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

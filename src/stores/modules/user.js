@@ -11,12 +11,12 @@ export const useUserStore = defineStore(
     const removeToken = () => (token.value = '')
 
     const userInfo = ref({})
-    const getUserInfo = async ()=>{
+    const getUserInfo = async () => {
       const res = await userGetInfoService()
       userInfo.value = res.data.data
     }
     const setUserInfo = (val) => (userInfo.value = val)
-    return { token, setToken, removeToken, userInfo, getUserInfo, setUserInfo}
+    return { token, setToken, removeToken, userInfo, getUserInfo, setUserInfo }
   },
   {
     persist: true // 持久化

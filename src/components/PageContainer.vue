@@ -1,19 +1,18 @@
 <script setup>
 defineProps({
-  title:{
-    required:true,
-    type:String
+  title: {
+    required: true,
+    type: String
   }
 })
 </script>
-
 
 <template>
   <el-card class="page-container">
     <template #header>
       <div class="header">
         <span>{{ title }}</span>
-        <div class="extra"> 
+        <div class="extra">
           <slot name="extra"></slot>
         </div>
       </div>
@@ -21,8 +20,6 @@ defineProps({
     <slot></slot>
   </el-card>
 </template>
-
-
 
 <style lang="scss" scoped>
 .page-container {
@@ -34,5 +31,4 @@ defineProps({
     align-items: center;
   }
 }
-
 </style>

@@ -1,7 +1,4 @@
-<script setup>
-
-</script>
-
+<script setup></script>
 
 <template>
   <PageContainer title="更换头像">
@@ -12,7 +9,4 @@
   </PageContainer>
 </template>
 
-
-<style scoped>
-
-</style>
+<style scoped></style>
