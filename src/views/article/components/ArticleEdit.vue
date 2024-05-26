@@ -4,6 +4,7 @@ import { Plus } from '@element-plus/icons-vue'
 import ChannelSelect from './ChannelSelect.vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { artAddArticleService } from '@/api/article.js'
 
 const visibleDraw = ref(false)
 
@@ -24,13 +25,34 @@ const onSelectFile = (uploadFile) => {
   formModel.value.cover_img = uploadFile.raw
 }
 
+const emit = defineEmits(['success'])
+// 提交相关
+const onPublish = async (state)=>{
+  formModel.value.state = state
+  const fd = new FormData()
+  for (let key in formModel.value){
+    fd.append(key, formModel.value[key])
+  }
+  if(formModel.value.id){
+    // 编辑
+  }else{
+    // 添加
+    await artAddArticleService(fd)
+    ElMessage.success("添加成功")
+    visibleDraw.value = false
+    emit('success','add')
+  }
+}
+
+const quillRef = ref()
 const open = (row) => {
   visibleDraw.value = true
   if (row.id) {
     console.log('回显+编辑')
   } else {
     formModel.value = { ...defaultForm }
-    console.log('添加')
+    imgUrl.value = ''
+    quillRef.value.setHTML('')
   }
 }
 defineExpose({
@@ -60,13 +82,13 @@ defineExpose({
       </el-form-item>
       <el-form-item label="文章内容" props="content">
         <div class="editor">
-          <QuillEditor theme="snow" v-model:content="formModel.content" content-type="html">
+          <QuillEditor ref="quillRef" theme="snow" v-model:content="formModel.content" content-type="html">
           </QuillEditor>
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">发布</el-button>
-        <el-button type="info">草稿</el-button>
+        <el-button @click="onPublish('已发布')" type="primary">发布</el-button>
+        <el-button @click="onPublish('草稿')" type="info">草稿</el-button>
       </el-form-item>
     </el-form>
   </el-drawer>

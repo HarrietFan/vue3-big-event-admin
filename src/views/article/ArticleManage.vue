@@ -66,6 +66,14 @@ const onEditArticle = (row) => {
 const onDelArticle = (row) => {
   console.log(row)
 }
+// 添加文章
+const onSuccess = (type) => {
+  if(type === 'add'){
+    const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
+    params.value.pagenum = lastPage
+  }
+  getArticle()
+}
 </script>
 
 <template>
@@ -77,7 +85,7 @@ const onDelArticle = (row) => {
     <!-- 表单 -->
     <el-form inline>
       <el-form-item label="文章分类">
-        <ChannelSelect v-model="params.cate_id"></ChannelSelect>
+        <ChannelSelect v-model="params.cate_id" width="200px"></ChannelSelect>
       </el-form-item>
       <el-form-item label="发布状态">
         <el-select v-model="params.state" style="width: 200px">
@@ -128,7 +136,7 @@ const onDelArticle = (row) => {
     />
 
     <!-- 抽屉 -->
-    <ArticleEdit ref="articleEditRef"></ArticleEdit>
+    <ArticleEdit ref="articleEditRef" :width="width" @success="onSuccess"></ArticleEdit>
   </PageContainer>
 </template>
 

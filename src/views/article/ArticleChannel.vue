@@ -62,7 +62,7 @@ const onSuccess = () => {
         <el-empty description="没有数据" />
       </template>
     </el-table>
-    <ChannelEdit ref="dialog" @success="onSuccess" :width="width"></ChannelEdit>
+    <ChannelEdit ref="dialog" @success="onSuccess" width="100%"></ChannelEdit>
   </PageContainer>
 </template>
 

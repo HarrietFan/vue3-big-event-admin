@@ -25,7 +25,6 @@ const emit = defineEmits(['update:modelValue'])
 
 <template>
   <el-select
-    style="width: 200px"
     :modelValue="modelValue"
     @update:modelValue="emit('update:modelValue', $event)"
     :style="{ width }"
