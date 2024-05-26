@@ -68,7 +68,7 @@ const onDelArticle = (row) => {
 }
 // 添加文章
 const onSuccess = (type) => {
-  if(type === 'add'){
+  if (type === 'add') {
     const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
     params.value.pagenum = lastPage
   }

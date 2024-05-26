@@ -23,5 +23,17 @@ export const artGetArticleService = (params) =>
     params
   })
 
-// 发布文章
+// 抽屉、添加：发布文章
 export const artAddArticleService = (data) => request.post('/my/article/add', data)
+
+// 抽屉、编辑：获取文章详情
+export const artGetInfoService = (id) =>
+  request.get('/my/article/info', {
+    params: {
+      id
+    }
+  })
+
+  // 抽屉、编辑：提交文章编辑详情
+export const artEditService = (data) =>
+  request.put('/my/article/info', data)

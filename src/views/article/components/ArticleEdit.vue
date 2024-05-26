@@ -4,17 +4,20 @@ import { Plus } from '@element-plus/icons-vue'
 import ChannelSelect from './ChannelSelect.vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import { artAddArticleService } from '@/api/article.js'
+import { artAddArticleService, artGetInfoService, artEditService } from '@/api/article.js'
+import { baseURL } from '@/utils/request'
+import axios from 'axios'
 
 const visibleDraw = ref(false)
 
 const defaultForm = {
-  title: '',
-  cate_id: '',
-  cover_img: '', // file
-  content: '',
-  state: ''
+  title: '', // 标题
+  cate_id: '', // 分类id
+  content: '', // string 内容
+  cover_img: '', // 封面图片 file对象
+  state: '' // 状态
 }
+
 
 const formModel = ref({ ...defaultForm })
 
@@ -25,39 +28,70 @@ const onSelectFile = (uploadFile) => {
   formModel.value.cover_img = uploadFile.raw
 }
 
-const emit = defineEmits(['success'])
-// 提交相关
-const onPublish = async (state)=>{
-  formModel.value.state = state
-  const fd = new FormData()
-  for (let key in formModel.value){
-    fd.append(key, formModel.value[key])
-  }
-  if(formModel.value.id){
-    // 编辑
-  }else{
-    // 添加
-    await artAddArticleService(fd)
-    ElMessage.success("添加成功")
-    visibleDraw.value = false
-    emit('success','add')
+// 将网络图片地址转换为 File 对象的函数
+async function imageUrlToFileObject(imageUrl, filename) {
+  try {
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' })
+    const blob = new Blob([response.data], {
+      type: response.headers['content-type']
+    })
+    const file = new File([blob], filename, {
+      type: response.headers['content-type']
+    })
+    return file
+  } catch (error) {
+    console.error('Error converting image URL to File object:', error)
+    return null
   }
 }
 
 const quillRef = ref()
-const open = (row) => {
+const open = async (row) => {
   visibleDraw.value = true
   if (row.id) {
-    console.log('回显+编辑')
+    const res = await artGetInfoService(row.id)
+    formModel.value = res.data.data
+    imgUrl.value = baseURL + formModel.value.cover_img
+    const file = await imageUrlToFileObject(
+      imgUrl.value,
+      formModel.value.cover_img
+    )
+    formModel.value.cover_img = file
+    console.log(formModel.value.id)
   } else {
     formModel.value = { ...defaultForm }
     imgUrl.value = ''
     quillRef.value.setHTML('')
   }
 }
+// 提交相关
+const onPublish = async (state) => {
+  formModel.value.state = state
+  const fd = new FormData()
+  for (let key in formModel.value) {
+    fd.append(key, formModel.value[key])
+  }
+  fd.append('Id', formModel.value.id)
+  if (formModel.value.id) {
+    await artEditService(fd)
+    ElMessage.success('编辑成功')
+    visibleDraw.value = false
+    emit('success', 'edit')
+  } else {
+    // 添加
+    await artAddArticleService(fd)
+    ElMessage.success('添加成功')
+    visibleDraw.value = false
+    emit('success', 'add')
+  }
+}
+
 defineExpose({
   open
 })
+
+const emit = defineEmits(['success'])
+
 </script>
 
 <template>
@@ -82,7 +116,12 @@ defineExpose({
       </el-form-item>
       <el-form-item label="文章内容" props="content">
         <div class="editor">
-          <QuillEditor ref="quillRef" theme="snow" v-model:content="formModel.content" content-type="html">
+          <QuillEditor
+            ref="quillRef"
+            theme="snow"
+            v-model:content="formModel.content"
+            content-type="html"
+          >
           </QuillEditor>
         </div>
       </el-form-item>
