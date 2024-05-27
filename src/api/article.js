@@ -34,6 +34,5 @@ export const artGetInfoService = (id) =>
     }
   })
 
-  // 抽屉、编辑：提交文章编辑详情
-export const artEditService = (data) =>
-  request.put('/my/article/info', data)
+// 抽屉、编辑：提交文章编辑详情
+export const artEditService = (data) => request.put('/my/article/info', data)

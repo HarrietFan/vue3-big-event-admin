@@ -27,23 +27,17 @@ const formModel = ref({ ...defaultForm })
 //   state: String
 // })
 const rules = ref({
-  title : [
-    { required: true, message: "文章标题不能为空", trigger: 'blur'},
+  title: [
+    { required: true, message: '文章标题不能为空', trigger: 'blur' },
     {
       pattern: /^\S{2,10}$/,
       message: '文章标题必须是2到10位的非空字符',
       trigger: 'blur'
     }
   ],
-  cate_id:[
-    { required: true, message: "文章分类不能为空", trigger: 'blur'},
-  ],
-  cover_img:[
-    { required: true, message: "文章封面不能为空", trigger: 'blur'},
-  ],
-  content: [
-    { required: true, message: "文章内容不能为空", trigger: 'blur'},
-  ]
+  cate_id: [{ required: true, message: '文章分类不能为空', trigger: 'blur' }],
+  cover_img: [{ required: true, message: '文章封面不能为空', trigger: 'blur' }],
+  content: [{ required: true, message: '文章内容不能为空', trigger: 'blur' }]
 })
 
 // 图片相关
@@ -77,10 +71,7 @@ const open = async (row) => {
     const res = await artGetInfoService(row.id)
     formModel.value = res.data.data
     imgUrl.value = baseURL + formModel.value.cover_img
-    const file = await imageUrlToFileObject(
-      imgUrl.value,
-      formModel.value.cover_img
-    )
+    const file = await imageUrlToFileObject(imgUrl.value, formModel.value.cover_img)
     formModel.value.cover_img = file
   } else {
     formModel.value = { ...defaultForm }
@@ -115,7 +106,6 @@ defineExpose({
 })
 
 const emit = defineEmits(['success'])
-
 </script>
 
 <template>
