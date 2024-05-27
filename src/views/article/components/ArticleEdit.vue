@@ -18,8 +18,33 @@ const defaultForm = {
   state: '' // 状态
 }
 
-
 const formModel = ref({ ...defaultForm })
+// const ruleForm = ref({
+//   title: String,
+//   cate_id: String,
+//   content: String,
+//   cover_img: File,
+//   state: String
+// })
+const rules = ref({
+  title : [
+    { required: true, message: "文章标题不能为空", trigger: 'blur'},
+    {
+      pattern: /^\S{2,10}$/,
+      message: '文章标题必须是2到10位的非空字符',
+      trigger: 'blur'
+    }
+  ],
+  cate_id:[
+    { required: true, message: "文章分类不能为空", trigger: 'blur'},
+  ],
+  cover_img:[
+    { required: true, message: "文章封面不能为空", trigger: 'blur'},
+  ],
+  content: [
+    { required: true, message: "文章内容不能为空", trigger: 'blur'},
+  ]
+})
 
 // 图片相关
 const imgUrl = ref('')
@@ -45,7 +70,7 @@ async function imageUrlToFileObject(imageUrl, filename) {
   }
 }
 
-const quillRef = ref()
+const quillRef = ref(null)
 const open = async (row) => {
   visibleDraw.value = true
   if (row.id) {
@@ -57,7 +82,6 @@ const open = async (row) => {
       formModel.value.cover_img
     )
     formModel.value.cover_img = file
-    console.log(formModel.value.id)
   } else {
     formModel.value = { ...defaultForm }
     imgUrl.value = ''
@@ -96,14 +120,14 @@ const emit = defineEmits(['success'])
 
 <template>
   <el-drawer v-model="visibleDraw" :title="formModel.id ? '编辑文章' : '添加文章'" size="50%">
-    <el-form :model="formModel" ref="formRef" label-width="100px">
+    <el-form :model="formModel" :rules="rules" ref="formRef" label-width="100px">
       <el-form-item label="文章标题" prop="title">
         <el-input v-model="formModel.title" placeholder="请输入标题" />
       </el-form-item>
-      <el-form-item label="文章分类" props="cate_id">
+      <el-form-item label="文章分类" prop="cate_id">
         <ChannelSelect v-model="formModel.cate_id" width="100%"></ChannelSelect>
       </el-form-item>
-      <el-form-item label="文章封面" props="cover_img">
+      <el-form-item label="文章封面" prop="cover_img">
         <el-upload
           class="avatar-uploader"
           :show-file-list="false"
@@ -114,7 +138,7 @@ const emit = defineEmits(['success'])
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>
-      <el-form-item label="文章内容" props="content">
+      <el-form-item label="文章内容" prop="content">
         <div class="editor">
           <QuillEditor
             ref="quillRef"
